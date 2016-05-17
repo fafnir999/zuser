@@ -1,0 +1,158 @@
+<?php /**
+ * @var Zend\Form\Form $accountFilterForm
+ * @var Zend\Form\Form $accountNumPagesForm
+ * @var  \ZUser\Entity\Account $item
+ * @var array $queryParams
+ */
+?>
+
+<div class="container">
+    <div style="height: 100px;">
+        <div class="pull-left">
+            <h2><?=$this->translate('Users accounts') ?></h2>
+            <p><?=$this->translate('Here you can manage register users.') ?></p>
+        </div>
+        <div class="pull-right" style="margin-top: 40px;">
+            <a class="btn btn-success" href="<?=$this->url('account/admin/users/create') ?>"><?=$this->translate("Create User")?></a>
+        </div>
+    </div>
+
+
+
+    <table class="table table-striped table-bordered table-hover">
+        <thead class="">
+            <tr>
+                <?php echo $this->partial('z-lib/filter-sorting/sorting_table_head_with_links', ['columns' => $this->columns]) ?>
+            </tr>
+            <tr>
+                <?php $accountFilterForm->prepare() ?>
+                <td style="width: 60px;"><?= $this->formRow($accountFilterForm->get('id')) ?></td>
+                <td><?= $this->formRow($accountFilterForm->get('email')) ?></td>
+                <td><?= $this->formRow($accountFilterForm->get('date_created')) ?></td>
+                <td><?= $this->formRow($accountFilterForm->get('date_last_login')) ?></td>
+                <td><?= $this->formRow($accountFilterForm->get('approved')) ?></td>
+                <td><?= $this->formRow($accountFilterForm->get('enabled')) ?></td>
+                <td><?= $this->formRow($accountFilterForm->get('profile_type')) ?></td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($this->paginator as $item): ?>
+            <tr>
+                <td class="text-center"><?= $item->getId();?> </td>
+                <td>
+                    <a title="<?=$this->translate('View and edit user')?>" href="<?=$this->url('account/admin/users/edit-account', [],
+                        ['query' => ['id'=> $item->getId()]]);?>"> <?=$this->escapeHtml($item->getEmail());?>
+                    </a>
+
+                </td>
+                <td class="text-center"><?= $this->dateFormat($item->getDateCreated(),IntlDateFormatter::LONG,IntlDateFormatter::NONE)?> </td>
+                <td class="text-center">
+                    <?= $this->BooleanDecorate($item->getDateLastLogin(),[
+                        $this->dateFormat($item->getDateLastLogin(),IntlDateFormatter::LONG,IntlDateFormatter::SHORT),
+                        $this->translate('not login yet')])
+                    ?> </td>
+                <td class="text-center"><?= $this->BooleanDecorate($item->getApproved(), [
+                        '<span class="label label-success">'.$this->translate("approved")."</span>",
+                        '<button  title="'.$this->translate("Approve account").'"
+                        data-type="action-button" data-action-url="'.$this->url('account/admin/users/change').'"
+                        data-action="approve" data-id="'.$item->getId().'" class="btn btn-danger btn-xs">
+                        '. $this->translate("not approve").'</button>',
+                    ]);?> </td>
+                <td class="text-center"><?= $this->BooleanDecorate($item->getEnabled(), [
+                        '<button  title="'.$this->translate("Disable account").'"
+                        data-type="action-button" data-action-url="'.$this->url('account/admin/users/change').'"
+                        data-action="disable" data-id="'.$item->getId().'" class="btn btn-success btn-xs">
+                        '. $this->translate("enabled").'</button>',
+                        '<button  title="'.$this->translate("Enable account").'"
+                        data-type="action-button" data-action-url="'.$this->url('account/admin/users/change').'"
+                        data-action="enable" data-id="'.$item->getId().'" class="btn btn-danger btn-xs">
+                        '. $this->translate("disabled").'</button>',
+                    ]);?> </td>
+                <td class="text-center"><?= $this->escapeHtml($item->getProfile()->getProfileType());?></td>
+                <td class="text-center"><?= $this->escapeHtml($item->getIp());?></td>
+                <td class="text-center">
+                    <button data-type="action-button" data-action-url="<?=$this->url('account/admin/users/change');?>"
+                        data-action="delete" data-id="<?=$item->getId()?>" class="btn btn-danger btn-xs">
+                        <?= $this->translate("Delete") ?>
+                    </button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+        </tbody>
+    </table>
+
+
+
+</div>
+
+<?php echo $this->paginationControl($this->paginator, 'Sliding', 'my_pagination_control', ['queryParams' => $queryParams]); ?>
+
+<div class="pull-right" style="margin-top: 20px;">
+<?php $accountNumPagesForm->prepare() ?>
+<?= $this->form()->openTag($accountNumPagesForm) ?>
+<?= $this->formRow($accountNumPagesForm->get('numPages')) ?>
+<?= $this->form()->closeTag($accountNumPagesForm)?>
+</div>
+
+<script type="text/javascript">
+
+    //Функция для преобразования параметров строки запроса (queryString) в объект javascript
+    var queryToArray =  function(queryParams) {
+        var match,
+            pl     = /\+/g,  // Regex for replacing addition symbol with a space
+            search = /([^&=]+)=?([^&]*)/g,
+            decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+            query  = queryParams.substring(1);
+
+        var urlParams = {};
+        while (match = search.exec(query)) {
+            urlParams[decode(match[1])] = decode(match[2]);
+        }
+        return urlParams;
+    };
+
+
+    /**
+     * Функция для создания строки запроса из строки запроса текущей страницы и массива дополнительных параметров
+     *
+     * @param {object} additionalQuery
+     * @returns {string} Результирующая строка запроса
+     */
+    function createQueryString(additionalQuery) {
+        var currentQueryParams = queryToArray(window.location.search);
+        var result = jQuery.extend(currentQueryParams, additionalQuery);
+        return '?' + jQuery.param(result);
+    }
+
+    $(document).ready(function() {
+        //Обработка клика по кнопке действия (удаление, изменение статуса и т. д.)
+        $('[data-type=action-button]').click(function() {
+            var url = $(this).data('action-url');
+            var action = $(this).data('action');
+            var id = $(this).data('id');
+            var deleteConfirm = true;
+            if(action == 'delete') {
+                 deleteConfirm = confirm("Are you sure?");
+            }
+            if(deleteConfirm == true) {
+                $.post(url, { id: id, action: action}, function(data) {
+                    location.reload();
+                });
+            }
+        });
+
+
+        $("[data-filter=1]").change(function(e) {
+            window.location.href = createQueryString(queryToArray('?' + $("[data-filter=1]").serialize()));
+        });
+
+        //Перезагрузка страницы с добавлением query параметров при изменении селекта количества страниц
+        $("#accountNumPagesForm").change(function(e) {
+            window.location.href = createQueryString({numPages: $(this).find(":selected").text()});
+        });
+    });
+
+
+</script>

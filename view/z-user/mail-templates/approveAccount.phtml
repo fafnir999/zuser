@@ -1,0 +1,13 @@
+<?php
+$approveUrl = $this->url(
+    'account/approve',
+    ['token' => $this->token],
+    ['force_canonical' => true]
+);
+?>
+
+<h1><?=$this->translate('You registered on our site. Please approve you email by clicking the link below'); ?></h1>
+
+<?=$this->translate('Click on this link please, or insert it in browser'); ?>
+
+<p><a href="<?=$approveUrl?>"><?=$approveUrl?></a></p>

@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-05-01 22:50+0300\n"
+"PO-Revision-Date: 2016-05-01 22:51+0300\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.7\n"
+"X-Poedit-Basepath: ..\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: src/ZUser/Model/Form/AccountForm.php:32
+#: src/ZUser/Model/Form/AccountForm.php:37
+msgid "Register email"
+msgstr "Регистрационный email"
+
+#: src/ZUser/Model/Form/AccountForm.php:50
+msgid "Password"
+msgstr "Пароль"
+
+#: view/z-user/account/account.phtml:14
+msgid "Edit Account"
+msgstr "Обновить аккаунт"
+
+#: view/z-user/account/auth.phtml:22
+msgid "TEXT_ACCOUNT_REMEMBER_ME"
+msgstr ""
+
+#: view/z-user/account/auth.phtml:26
+msgid "BUTTON_ACCOUNT_SIGN_IN"
+msgstr ""
+
+#: view/z-user/account/registration.phtml:20
+msgid "ALERT_ACCOUNT_PASSWORD_DOES_NOT_MATCH"
+msgstr ""
+
+#: view/z-user/account/registration.phtml:25
+msgid "BUTTON_ACCOUNT_SIGN_UP"
+msgstr ""
+
+#~ msgid "test"
+#~ msgstr "тест"
+
+#~ msgid "testtt"
+#~ msgstr "тест1111"

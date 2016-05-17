@@ -1,0 +1,40 @@
+<?php
+/** @var \ZUser\Model\Form\AccountForm $form */
+$createPasswordUrl = $this->url('account/registration');
+$forgotPasswordUrl = $this->url('account/password-forgot');
+$singInGithub = $this->url('oauth2/do-auth', ['provider' => 'github']);
+?>
+
+<div class="account-panel-container">
+
+    <div class="account-auth-container">
+
+        <?php $form->prepare() ?>
+
+        <?= $this->form()->openTag($form) ?>
+            <div class="form-group input-group-sm">
+                <?= $this->formRow($form->get('email')) ?>
+            </div>
+            <div class="form-group input-group-sm">
+                <?= $this->formRow($form->get('password')) ?>
+            </div>
+            <div class="form-group input-group-sm">
+                <label>
+                    <?= $this->formCheckbox($form->get('remember_me')) ?>
+                    <span class="text-info"><?= $this->translate("Remember me") ?></span>
+                </label>
+                <ul class="custom-form-error"></ul>
+                <a href="<?=$forgotPasswordUrl ?>"><?=$this->translate("Forgot password?")?></a>
+                <a href="<?=$createPasswordUrl ?>"><?=$this->translate("Create account")?></a>
+            </div>
+            <button><?= $this->translate("Sing in") ?></button>
+        <?= $this->form()->closeTag($form)?>
+        <p></p>
+        <a href="<?=$singInGithub ?>"><?=$this->translate("Sing in with Github")?></a>
+<!---->
+<!--        <div>-->
+<!--            <a href="--><?//= $this->url('oauth2/do.auth', ['provider' => 'facebook']) ?><!--">--><?//= $this->translate("BUTTON_ACCOUNT_SIGN_UP_BY_FACEBOOK") ?><!--</a>-->
+<!--            <a href="--><?//= $this->url('oauth2/do.auth', ['provider' => 'google']) ?><!--">--><?//= $this->translate("BUTTON_ACCOUNT_SIGN_UP_BY_GOOGLE_PLUS") ?><!--</a>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->

@@ -1,0 +1,41 @@
+
+<?php if ($this->pageCount): ?>
+    <div class="pagination">
+        <!-- Previous page link -->
+        <?php if (isset($this->previous)): ?>
+            <li><a href="<?= $this->url(null, [], ['query' => ['page' => $this->first] + $queryParams]); ?>">
+                &lt;&lt;
+            </a></li>
+        <?php else: ?>
+            <li class="disabled"><a>
+                    &lt;&lt;
+                </a></li>
+        <?php endif; ?>
+
+        <!-- Numbered page links -->
+        <?php foreach ($this->pagesInRange as $page): ?>
+
+            <?php if ($page != $this->current): ?>
+                <li><a  href="<?= $this->url(null, [], ['query' => ['page' => $page] + $queryParams]); ?>">
+                    <?php echo $page; ?>
+                </a></li>
+            <?php else: ?>
+                <li class="active"><a>
+                    <?php echo $page; ?>
+                </a></li>
+            <?php endif; ?>
+
+        <?php endforeach; ?>
+
+        <!-- Next page link -->
+        <?php if (isset($this->next)): ?>
+        <li><a href="<?= $this->url(null, [], ['query' => ['page' => $this->last] + $queryParams]); ?>">
+                 &gt;&gt;
+            </a></li>
+        <?php else: ?>
+            <li class="disabled"><a>
+                    &gt;&gt;
+                </a></li>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>

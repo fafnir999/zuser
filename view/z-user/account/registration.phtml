@@ -1,0 +1,27 @@
+<?php
+/** @var \ZUser\Model\Form\AccountForm $form */
+$authUrl = $this->url(
+    'account/auth'
+);
+
+?>
+
+<?php $form->prepare() ?>
+
+<div class="container-fluid">
+    <?= $this->form()->openTag($form) ?>
+        <div class="form-group input-group-sm">
+            <?= $this->formRow($form->get('email')) ?>
+        </div>
+        <div class="form-group input-group-sm">
+            <?= $this->formRow($form->get('password')) ?>
+        </div>
+        <div class="form-group input-group-sm">
+            <?= $this->formRow($form->get('account_type')) ?>
+        </div>
+
+        <button><?= $this->translate("Sing up") ?></button>
+    <?= $this->form()->closeTag($form)?>
+</div>
+<p></p>
+<a href="<?=$authUrl ?>"><?=$this->translate("Already have account?")?></a>

@@ -1,0 +1,27 @@
+<?php
+/**
+ * Author: Yaroslav Kovalev
+ * Date: 08.05.2016
+ * Time: 21:56
+ */
+$currentUrl = $this->serverUrl(true);
+$usersListUrl = $this->url('account/admin/users');
+$accountEditUrl = $this->url('account/admin/users/edit-account', [],
+        [
+            'query' => ['id'=> $this->id],
+            'force_canonical' => true
+        ]
+    );
+$profileEditUrl = $this->url('account/admin/users/edit-profile', [],
+        [
+            'query' => ['id'=> $this->id],
+            'force_canonical' => true,
+        ]
+);
+
+?>
+<ul class="nav nav-tabs">
+    <li role="presentation"><a href="<?=$usersListUrl?>"><?=$this->translate('Users list')?></a></li>
+    <li class="<?= $currentUrl==$accountEditUrl ? 'active' : '' ?>" role="presentation"><a href="<?=$accountEditUrl?>"><?=$this->translate('Edit user account')?></a></li>
+    <li class="<?= $currentUrl==$profileEditUrl ? 'active' : '' ?>" role="presentation"><a href="<?=$profileEditUrl?>"><?=$this->translate('Edit user profile')?></a></li>
+</ul>
